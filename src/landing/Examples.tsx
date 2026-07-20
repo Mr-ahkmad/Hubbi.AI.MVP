@@ -2,7 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 
 const examples = [
   {
-    name: "Nозанин Beauty Salon",
+    name: " Beauty Salon",
     type: "Go'zallik saloni",
     image:
       "https://images.pexels.com/photos/3993449/pexels-photo-3993449.jpeg?auto=compress&cs=tinysrgb&w=600",
