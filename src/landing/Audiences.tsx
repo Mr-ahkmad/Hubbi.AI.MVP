@@ -3,12 +3,12 @@ import { PenTool, Store } from "lucide-react";
 const audiences = [
   {
     Icon: PenTool,
-    title: "Kontent yaratuvchilar va ekspertlar",
+    title: "Bloggerlar va ekspertlar",
     text: "Kontentingizni bitta havola orqali tarqating — ijtimoiy tarmoqlar, portfolio, hamkorlik va daromad bitta saytda.",
   },
   {
     Icon: Store,
-    title: "Kichik va o'rta biznes egalari",
+    title: "Kichik biznes egalari",
     text: "Xizmatlaringizni ko'rsating, narxlarni joylashtiring va mijozlardan to'g'ridan-to'g'ri xabar va buyurtma oling.",
   },
 ];
