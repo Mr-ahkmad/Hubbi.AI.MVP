@@ -1,35 +1,30 @@
 import { Instagram, Send, MessageCircle } from "lucide-react";
+import type { SocialConfig } from "./types";
 
-type Props = {
-  instagram: string;
-  telegram: string;
-  whatsapp: string;
-};
-
-export default function SocialBar({ instagram, telegram, whatsapp }: Props) {
+export default function SocialBlock({ config }: { config: SocialConfig }) {
   const items = [
     {
-      href: instagram,
+      href: config.instagram,
       label: "Instagram",
       Icon: Instagram,
       hover: "hover:text-pink-400 hover:border-pink-400/40",
     },
     {
-      href: telegram,
+      href: config.telegram,
       label: "Telegram",
       Icon: Send,
       hover: "hover:text-sky-400 hover:border-sky-400/40",
     },
     {
-      href: whatsapp,
+      href: config.whatsapp,
       label: "WhatsApp",
       Icon: MessageCircle,
       hover: "hover:text-emerald-400 hover:border-emerald-400/40",
     },
-  ];
+  ].filter((i) => i.href);
 
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center justify-center gap-3">
       {items.map(({ href, label, Icon, hover }) => (
         <a
           key={label}

@@ -1,38 +1,50 @@
-import Header from "./components/Header";
-import ProfileCard from "./components/ProfileCard";
-import LinkButton from "./components/LinkButton";
-import ProductCard from "./components/ProductCard";
-import WhyUs from "./components/WhyUs";
-import Testimonials from "./components/Testimonials";
-import Footer from "./components/Footer";
-import { profile } from "./data/profile";
+import { useState, useCallback } from "react";
+import PhoneFrame from "./blocks/PhoneFrame";
+import BlockWrapper from "./blocks/BlockWrapper";
+import AddBlockButton from "./blocks/AddBlockButton";
+import AddBlockModal from "./blocks/AddBlockModal";
+import { initialBlocks, createBlock, type Block, type BlockType } from "./blocks/types";
 
 export default function App() {
+  const [blocks, setBlocks] = useState<Block[]>(() => initialBlocks());
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const addBlock = useCallback((type: BlockType) => {
+    setBlocks((prev) => {
+      const nextOrder = prev.length ? Math.max(...prev.map((b) => b.order)) + 1 : 0;
+      return [...prev, createBlock(type, nextOrder)];
+    });
+  }, []);
+
+  const deleteBlock = useCallback((id: string) => {
+    setBlocks((prev) => prev.filter((b) => b.id !== id));
+  }, []);
+
   return (
     <div className="relative min-h-screen w-full overflow-x-hidden">
-      <Header />
+      <PhoneFrame>
+        <div className="flex flex-col gap-5">
+          {blocks.length === 0 ? (
+            <div className="rounded-3xl border border-dashed border-navy-border bg-navy-card/40 p-10 text-center">
+              <p className="text-sm text-ink-muted">
+                Sahifa bo'sh. Pastdagi "+" tugma orqali birinchi blokingizni
+                qo'shing.
+              </p>
+            </div>
+          ) : (
+            blocks.map((block) => (
+              <BlockWrapper key={block.id} block={block} onDelete={deleteBlock} />
+            ))
+          )}
+        </div>
+      </PhoneFrame>
 
-      <main className="relative z-10">
-        <ProfileCard profile={profile} />
-        <LinkButton label={profile.ctaLabel} href={profile.ctaHref} />
-
-        {/* Xizmat kartalari */}
-        <section className="relative z-10 mx-auto mt-16 w-full max-w-5xl px-5">
-          <h2 className="text-center font-serif text-2xl font-semibold text-ink sm:text-3xl">
-            Bizning xizmatlar
-          </h2>
-          <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {profile.services.map((s) => (
-              <ProductCard key={s.id} service={s} />
-            ))}
-          </div>
-        </section>
-
-        <WhyUs />
-        <Testimonials testimonials={profile.testimonials} />
-      </main>
-
-      <Footer profile={profile} />
+      <AddBlockButton onClick={() => setModalOpen(true)} />
+      <AddBlockModal
+        open={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onAdd={addBlock}
+      />
     </div>
   );
 }
